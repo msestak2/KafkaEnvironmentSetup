@@ -1,0 +1,37 @@
+{
+  "type": "record",
+  "name": "MeasurementPM",
+  "namespace": "um.si.measurements.producer1",
+  "fields": [
+    {
+      "name": "stationId",
+      "type": "string"
+    },
+    {
+      "name": "latitude",
+      "type": "string"
+    },
+    {
+      "name": "longitude",
+      "type": "string"
+    },
+    {
+      "name": "stationLocation",
+      "type": "string"
+    },
+    {
+      "name": "dateFrom",
+      "type": "long",
+      "logicalType": "timestamp-millis"
+    },
+    {
+      "name": "dateUntil",
+      "type": "long",
+      "logicalType": "timestamp-millis"
+    },
+    {
+      "name": "pm10",
+      "type": "int"
+    }
+  ]
+}
