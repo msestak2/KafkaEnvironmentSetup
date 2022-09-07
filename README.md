@@ -1,5 +1,13 @@
 # Navodila za vzpostavitev Kafka gruče v sistemu
 
+**Sistemske zahteve**
+
+Za uspešen zagon potrebnih komponent je potrebno v sistemu imeti pripravljeno naslednje:
+-	Nameščena Java v sistemu (JDK 1.8+)
+-	Vzpostavljeno Docker okolje za virtualizacijo
+-	Nameščeno orodje oz. IDE za razvoj aplikacij v programskem jeziku Java (zaželen JetBrains IntelliJ IDEA Community Edition)
+-	Nameščeno orodje Offset Explorer za vizualni pregled nad Kafka gručo (povezava za prevzem orodja: https://www.kafkatool.com/download.html)
+
 Za zagon osnovne Kafka gruče v sistemu potrebujemo:
 - **Zookeeper** - koordinira komponente in splošno delovanje gruče
 - **Kafka posrednik** (1 ali več njih) - sprejema podatkovne toke oz. prispela sporočila proizvajalcev v teme in particije
