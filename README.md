@@ -56,7 +56,39 @@ java -jar MeasurementProducer.jar
 Na drugi strani pa zaženemo Kafka potrošnika, ki bere podatke iz teme *measurements-o* in jih izpisuje na zaslon.
 
 
+## Sintaksa KSQL
 
+Za delo s KSQL se najprej moremo povezati na ksqlDB strežnik. Najprej poskrbimo da so strežnik in CLI orodje zagnani v sistemu z ukazom:
+```
+docker-compose up ksqldb-server ksqldb-cli
+```
+
+Potem se v komandni liniji povežemo na strežnik preko CLI orodja:
+```
+docker-compose exec -T ksqldb-cli ksql http://ksqldb-server:8088
+```
+
+Ko smo se uspešno povezali, lahko začnemo izvajati KSQL poizvedbe. Najprej želimo nastaviti offset za branje podatkovnih tokov na vse zapise v temi:
+```
+SET 'auto.offset.reset'='earliest';
+```
+
+Zdaj lahko začnemo uporabljati KSQL sintakso:
+```
+SHOW topics;
+SHOW streams;
+PRINT 'ime teme' FROM BEGINNING;
+
+
+CREATE STREAM smeasurements-o (stationId varchar, latitude varchar, longitude varchar, stationLocation varchar, dateFrom long, dateUntil long, co integer, o3 integer, no2 integer) WITH (kafka_topic='measurements-o', key_format='kafka', value_format='avro');
+
+SELECT * FROM smeasuremements-o EMIT CHANGES LIMIT 10;
+
+CREATE STREAM smeasurements-o (stationId varchar, latitude varchar, longitude varchar, stationLocation varchar, dateFrom long, dateUntil long, co integer, o3 integer, no2 integer) WITH (kafka_topic='measurements-o', key_format='kafka', value_format='avro');
+
+CREATE STREAM all-measurements as
+select * from smeasurements-o s1 inner join smeasurements-pm s2 within 30 minutes on s1.stationId=s2.stationId emit changes;
+```
 
 
     
