@@ -80,14 +80,15 @@ SHOW streams;
 PRINT 'ime teme' FROM BEGINNING;
 
 
-CREATE STREAM smeasurements-o (stationId varchar, latitude varchar, longitude varchar, stationLocation varchar, dateFrom long, dateUntil long, co integer, o3 integer, no2 integer) WITH (kafka_topic='measurements-o', key_format='kafka', value_format='avro');
+CREATE STREAM smeasurementso (stationId varchar, latitude varchar, longitude varchar, stationLocation varchar, dateFrom varchar, dateUntil varchar, co integer, o3 integer, no2 integer) WITH (kafka_topic='measurements-o', key_format='kafka', value_format='avro');
 
-SELECT * FROM smeasuremements-o EMIT CHANGES LIMIT 10;
+SELECT * FROM smeasurementso EMIT CHANGES LIMIT 10;
 
-CREATE STREAM smeasurements-o (stationId varchar, latitude varchar, longitude varchar, stationLocation varchar, dateFrom long, dateUntil long, co integer, o3 integer, no2 integer) WITH (kafka_topic='measurements-o', key_format='kafka', value_format='avro');
+CREATE STREAM smeasurementspm (stationId varchar, latitude varchar, longitude varchar, stationLocation varchar, dateFrom varchar, dateUntil varchar, pm10 integer) WITH (kafka_topic='measurements-pm', key_format='kafka', value_format='avro');
 
-CREATE STREAM all-measurements as
-select * from smeasurements-o s1 inner join smeasurements-pm s2 within 30 minutes on s1.stationId=s2.stationId emit changes;
+CREATE STREAM allmeasurements as select * from smeasurementso s1 inner join smeasurementspm s2 within 30 minutes on s1.stationId=s2.stationId emit changes;
+
+CREATE TABLE avgpm10 as select stationLocation, avg(pm10) as averagePM10 from smeasurementspm group by stationLocation emit changes;
 ```
 
 
