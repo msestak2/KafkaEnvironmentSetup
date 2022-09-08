@@ -54,22 +54,17 @@ public class Producer {
                     locations.get(i)));
         }
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy");
-        Date dateFrom = dateFormat.parse("2021");
-        long timestampFrom = dateFrom.getTime();
-        Date dateTo = dateFormat.parse("2022");
-        long timestampTo = dateTo.getTime();
-        Random random = new Random();
-        long timeRange = timestampTo - timestampFrom;
-        long randomTimestamp = timestampFrom + (long) (random.nextDouble() * timeRange);
+        Date date=new Date(System.currentTimeMillis());
+        SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy");
+        String curTime = df2.format(date);
 
         Station selectedStation = stations.get(rand.nextInt(stations.size()));
         avroRecord.put("stationId",selectedStation.getStationId());
         avroRecord.put("latitude",selectedStation.getLatitude());
         avroRecord.put("longitude",selectedStation.getLongitude());
         avroRecord.put("stationLocation",selectedStation.getStationLocation());
-        avroRecord.put("dateFrom", randomTimestamp);
-        avroRecord.put("dateUntil", randomTimestamp + TimeUnit.HOURS.toMillis(1));
+        avroRecord.put("dateFrom", curTime);
+        avroRecord.put("dateUntil", curTime);
         avroRecord.put("pm10",Integer.valueOf(rand.nextInt((30-1)) + 1));
 
         ProducerRecord<Object, Object> producerRecord = new ProducerRecord<>(TOPIC1, selectedStation.getStationId(), avroRecord);
@@ -90,22 +85,17 @@ public class Producer {
                     locations.get(i)));
         }
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy");
-        Date dateFrom = dateFormat.parse("2021");
-        long timestampFrom = dateFrom.getTime();
-        Date dateTo = dateFormat.parse("2022");
-        long timestampTo = dateTo.getTime();
-        Random random = new Random();
-        long timeRange = timestampTo - timestampFrom;
-        long randomTimestamp = timestampFrom + (long) (random.nextDouble() * timeRange);
+        Date date=new Date(System.currentTimeMillis());
+        SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy");
+        String curTime = df2.format(date);
 
         Station selectedStation = stations.get(rand.nextInt(stations.size()));
         avroRecord.put("stationId",selectedStation.getStationId());
         avroRecord.put("latitude",selectedStation.getLatitude());
         avroRecord.put("longitude",selectedStation.getLongitude());
         avroRecord.put("stationLocation",selectedStation.getStationLocation());
-        avroRecord.put("dateFrom", randomTimestamp);
-        avroRecord.put("dateUntil", randomTimestamp + TimeUnit.HOURS.toMillis(1));
+        avroRecord.put("dateFrom", curTime);
+        avroRecord.put("dateUntil", curTime);
 
         avroRecord.put("co",Integer.valueOf(rand.nextInt((100 - 0 + 1)) + 1));
         avroRecord.put("o3",Integer.valueOf(rand.nextInt((50-1)) + 1));
